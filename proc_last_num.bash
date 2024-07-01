@@ -57,20 +57,54 @@ done
 REG_KMD=/mnt/wdb4/data/colony_tracking/colonies_tracking_base/ColoniesTracker/ImageRegistrationCore.py
 TRK_KMD=/mnt/wdb4/data/colony_tracking/colonies_tracking_base/ColoniesTracker/CoreTrackingAPI.py
 
-python3 $REG_KMD \
-$INPATH \
-$OUTPATH/"$WELL$FIELD"_reg \
+TOUCH_FILE_REG=done_reg
+
+if [ ! -f $TOUCH_FILE_REG ]
+    then
+    echo tag_sym="11,15" \
+    last_num=$LAST_NUM \
+    viewer=OFF \
+    features_cnt=15000 \
+    N_CORES=2 \
+    parallel=OFF \
+    reg_algo=FFT >> $LOG_FILE
+    python3 $REG_KMD \
+    "$INPATH" \
+    "$OUTPATH"/"$WELL$FIELD"_reg \
+    tag_sym="11,15" \
+    last_num=$LAST_NUM \
+    viewer=OFF \
+    features_cnt=15000 \
+    N_CORES=2 \
+    parallel=OFF \
+    reg_algo=FFT
+fi
+
+touch $TOUCH_FILE_REG
+
+echo ffile_mask="_tab.csv" \
+max_dist_param=35 \
+max_gap=4 \
+split_merge=True \
+min_track_len=1 \
+min_tree_len=50 \
+merging_cost_cutoff_multiplier=1.0 \
+frames_cnt=-1 \
+sq_lower_bound=99 \
+sq_upper_bound=999999 \
+bkg_img="$OUTPATH"/"$WELL$FIELD"T0001Z001C1_movl.jpg \
 tag_sym="11,15" \
-last_num=$LAST_NUM \
-viewer=OFF \
-features_cnt=15000 \
-N_CORES=2 \
-parallel=OFF \
-reg_algo=FFT
+napari_viewer="OFF" \
+custom_offset_mode="OFF" \
+matplot_lib="ON" \
+split_merge=False \
+shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
+save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png >> $LOG_FILE
+
 
 python3 $TRK_KMD \
-$OUTPATH \
-$OUTPATH/work_trk \
+"$OUTPATH" \
+"$OUTPATH"/work_trk \
 ffile_mask="_tab.csv" \
 max_dist_param=35 \
 max_gap=4 \
@@ -81,11 +115,11 @@ merging_cost_cutoff_multiplier=1.0 \
 frames_cnt=-1 \
 sq_lower_bound=99 \
 sq_upper_bound=999999 \
-bkg_img=$OUTPATH/"$WELL$FIELD"T0001Z001C1_movl.jpg \
+bkg_img="$OUTPATH"/"$WELL$FIELD"T0001Z001C1_movl.jpg \
 tag_sym="11,15" \
 napari_viewer="OFF" \
 custom_offset_mode="OFF" \
 matplot_lib="ON" \
 split_merge=False \
-shifts_path=$OUTPATH/"$WELL$FIELD"_reg.txt \
-save_image_path=$OUTPATH/"$WELL$FIELD"_reg_tracks.png
+shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
+save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png
