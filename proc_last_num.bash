@@ -28,10 +28,16 @@ if [ ! -f $TOUCH_FILE ]
     then
     KMD="komet -L $LAST_NUM -w -p kozlov_kn@spbstu.ru,$OUTPATH,$INPATH,localhost:7778 $WKSP"
     echo $KMD >> $LOG_FILE
-    # $KMD
+    komet -L $LAST_NUM -w -p kozlov_kn@spbstu.ru,"$OUTPATH","$INPATH",localhost:7778 "$WKSP"
 fi
 
 touch $TOUCH_FILE
+
+DATA_DIR=${DATA_DIR// /\\ }
+WORK_DIR=${WORK_DIR// /\\ }
+
+INPATH="$DATA_DIR"/$WELL$FIELD
+OUTPATH="$WORK_DIR"/$WELL$FIELD
 
 BNWKSP=`basename $WKSP`
 
