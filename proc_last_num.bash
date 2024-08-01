@@ -29,9 +29,8 @@ if [ ! -f $TOUCH_FILE ]
     KMD="komet -L $LAST_NUM -w -p kozlov_kn@spbstu.ru,$OUTPATH,$INPATH,localhost:7778 $WKSP"
     echo $KMD >> $LOG_FILE
     komet -L $LAST_NUM -w -p kozlov_kn@spbstu.ru,"$OUTPATH","$INPATH",localhost:7778 "$WKSP"
+    touch $TOUCH_FILE
 fi
-
-touch $TOUCH_FILE
 
 DATA_DIR=${DATA_DIR// /\\ }
 WORK_DIR=${WORK_DIR// /\\ }
@@ -84,9 +83,9 @@ if [ ! -f $TOUCH_FILE_REG ]
     N_CORES=2 \
     parallel=OFF \
     reg_algo=FFT
+    touch $TOUCH_FILE_REG
 fi
 
-touch $TOUCH_FILE_REG
 
 echo ffile_mask="_tab.csv" \
 max_dist_param=35 \
