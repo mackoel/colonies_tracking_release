@@ -86,17 +86,26 @@ if [ ! -f $TOUCH_FILE_REG ]
     touch $TOUCH_FILE_REG
 fi
 
+max_dist_param=20
+max_gap=6
+split_merge=True
+min_track_len=10
+min_tree_len=50
+merging_cost_cutoff_multiplier=1.25
+frames_cnt=-1
+sq_lower_bound=499
+sq_upper_bound=999999
 
 echo ffile_mask="_tab.csv" \
-max_dist_param=35 \
-max_gap=4 \
-split_merge=True \
-min_track_len=1 \
-min_tree_len=50 \
-merging_cost_cutoff_multiplier=1.0 \
-frames_cnt=-1 \
-sq_lower_bound=99 \
-sq_upper_bound=999999 \
+max_dist_param=$max_dist_param \
+max_gap=$max_gap \
+split_merge=$split_merge \
+min_track_len=$min_track_len \
+min_tree_len=$min_tree_len \
+merging_cost_cutoff_multiplier=$merging_cost_cutoff_multiplier \
+frames_cnt=$frames_cnt \
+sq_lower_bound=$sq_lower_bound \
+sq_upper_bound=$sq_upper_bound \
 bkg_img="$OUTPATH"/"$WELL$FIELD"T0001Z001C1_movl.jpg \
 tag_sym="11,15" \
 napari_viewer="OFF" \
@@ -106,20 +115,19 @@ split_merge=False \
 shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
 save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png >> $LOG_FILE
 
-
 python3 $TRK_KMD \
 "$OUTPATH" \
 "$OUTPATH"/work_trk \
 ffile_mask="_tab.csv" \
-max_dist_param=35 \
-max_gap=4 \
-split_merge=True \
-min_track_len=1 \
-min_tree_len=50 \
-merging_cost_cutoff_multiplier=1.0 \
-frames_cnt=-1 \
-sq_lower_bound=99 \
-sq_upper_bound=999999 \
+max_dist_param=$max_dist_param \
+max_gap=$max_gap \
+split_merge=$split_merge \
+min_track_len=$min_track_len \
+min_tree_len=$min_tree_len \
+merging_cost_cutoff_multiplier=$merging_cost_cutoff_multiplier \
+frames_cnt=$frames_cnt \
+sq_lower_bound=$sq_lower_bound \
+sq_upper_bound=$sq_upper_bound \
 bkg_img="$OUTPATH"/"$WELL$FIELD"T0001Z001C1_movl.jpg \
 tag_sym="11,15" \
 napari_viewer="OFF" \
