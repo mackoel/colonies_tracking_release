@@ -111,7 +111,6 @@ tag_sym="11,15" \
 napari_viewer="OFF" \
 custom_offset_mode="OFF" \
 matplot_lib="ON" \
-split_merge=False \
 shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
 save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png >> $LOG_FILE
 
@@ -133,6 +132,5 @@ tag_sym="11,15" \
 napari_viewer="OFF" \
 custom_offset_mode="OFF" \
 matplot_lib="ON" \
-split_merge=False \
 shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
 save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png
