@@ -8,6 +8,8 @@
 # WELL=W0001
 # FIELD=F0001
 
+INPUT_IMAGE_FILE_MASK_EXT=".tif"
+
 INPATH="$DATA_DIR"/$WELL$FIELD
 OUTPATH="$WORK_DIR"/$WELL$FIELD
 
@@ -49,14 +51,19 @@ for t in $(seq $LEFT_NUM $LAST_NUM);
         else
             tt="0$t"
         fi
-        TEST_FILE="$WELL$FIELD"T"$tt"Z001C1_tab.csv
-        WKSP_FILE="$WELL$FIELD"T"$tt"Z001C1_$BNWKSP
-        while [ ! -f $TEST_FILE ];
-            do
-                KMD="komet $WKSP_FILE"
-                echo $KMD >> $LOG_FILE
-                komet "$WKSP_FILE"
-        done
+        TEST_IMAGE_FILE=$INPATH/"$WELL$FIELD"T"$tt"Z001C1$INPUT_IMAGE_FILE_MASK_EXT
+        echo $TEST_IMAGE_FILE
+        if [ -f "$TEST_IMAGE_FILE" ]
+    	    then
+    	    TEST_FILE="$WELL$FIELD"T"$tt"Z001C1_tab.csv
+    	    WKSP_FILE="$WELL$FIELD"T"$tt"Z001C1_$BNWKSP
+    	    while [ ! -f $TEST_FILE ];
+        	do
+            	    KMD="komet $WKSP_FILE"
+                    echo $KMD >> $LOG_FILE
+	            komet "$WKSP_FILE"
+    		done
+    	fi
 done
 
 REG_KMD=/mnt/wdb4/data/colony_tracking/colonies_tracking_base/ColoniesTracker/ImageRegistrationCore.py
@@ -72,6 +79,7 @@ if [ ! -f $TOUCH_FILE_REG ]
     features_cnt=15000 \
     N_CORES=2 \
     parallel=OFF \
+    file_mask=$INPUT_IMAGE_FILE_MASK_EXT \
     reg_algo=FFT >> $LOG_FILE
     python3 $REG_KMD \
     "$INPATH" \
@@ -82,8 +90,13 @@ if [ ! -f $TOUCH_FILE_REG ]
     features_cnt=15000 \
     N_CORES=2 \
     parallel=OFF \
-    reg_algo=FFT
-    touch $TOUCH_FILE_REG
+    reg_algo=FFT \
+    file_mask=$INPUT_IMAGE_FILE_MASK_EXT
+#    if [ -f "$OUTPATH"/"$WELL$FIELD"_reg.txt ]
+    if [ -f "$WELL$FIELD"_reg.txt ]
+    then
+        touch $TOUCH_FILE_REG
+    fi
 fi
 
 max_dist_param=20
@@ -117,7 +130,7 @@ save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png >> $LOG_FILE
 python3 $TRK_KMD \
 "$OUTPATH" \
 "$OUTPATH"/work_trk \
-ffile_mask="_tab.csv" \
+file_mask="_tab.csv" \
 max_dist_param=$max_dist_param \
 max_gap=$max_gap \
 split_merge=$split_merge \
