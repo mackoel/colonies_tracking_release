@@ -4,6 +4,8 @@ This repository holds release versions of programs for tracking of colonies in t
 
 ## Usage
 
-Open notebook in Google Collab.
+Open notebook colonies_tracking_collab.ipynb in Google Collab.
 
-Follow instructions
+Adjust parameters and image series name.
+
+Run cells.

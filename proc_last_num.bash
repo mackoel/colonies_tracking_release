@@ -108,8 +108,10 @@ merging_cost_cutoff_multiplier=1.25
 frames_cnt=-1
 sq_lower_bound=499
 sq_upper_bound=999999
+shift_threshold_x=35
+shift_threshold_y=35
 
-echo ffile_mask="_tab.csv" \
+echo file_mask="_tab.csv" \
 max_dist_param=$max_dist_param \
 max_gap=$max_gap \
 split_merge=$split_merge \
@@ -125,6 +127,8 @@ napari_viewer="OFF" \
 custom_offset_mode="OFF" \
 matplot_lib="ON" \
 shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
+shift_threshold_x=$shift_threshold_x \
+shift_threshold_y=$shift_threshold_y \
 save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png >> $LOG_FILE
 
 python3 $TRK_KMD \
@@ -146,4 +150,6 @@ napari_viewer="OFF" \
 custom_offset_mode="OFF" \
 matplot_lib="ON" \
 shifts_path="$OUTPATH"/"$WELL$FIELD"_reg.txt \
+shift_threshold_x=$shift_threshold_x \
+shift_threshold_y=$shift_threshold_y \
 save_image_path="$OUTPATH"/"$WELL$FIELD"_reg_tracks.png
